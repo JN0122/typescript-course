@@ -4,9 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Typescript</title>
   </head>
   <body>
-    <script src="dist/app.js"></script>
+    <section class="section">
+      <h2>Add numbers:</h2>
+      <input type="number" id="number1" class="section__input--field" />
+      <input type="number" id="number2" class="section__input--field" />
+      <button id="add" class="section__button">Add</button>
+    </section>
+    <section class="section">
+      <h2>Buy product (discount in the search parameter):</h2>
+      <button id="buy" class="section__button">Buy</button>
+    </section>
+    <section class="section">
+      <h2>Todo list:</h2>
+      <form class="section__form" autocomplete="off">
+        <label for="name">Task name:</label>
+        <input type="text" id="name" class="section__input--field" />
+        <ul class="categories"></ul>
+        <button class="section__button" id="add-task">Add</button>
+        <p>Todo:</p>
+        <ul class="tasks"></ul>
+      </form>
+    </section>
+    <script type="module" src="dist/app.js"></script>
   </body>
 </html>

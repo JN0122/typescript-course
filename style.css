@@ -1,0 +1,71 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.section {
+  padding-bottom: 2rem;
+}
+
+.section__form {
+  padding-left: 2rem;
+}
+
+.section__input--field {
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid black;
+}
+
+.section__button {
+  text-transform: uppercase;
+  padding: 0.25rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid grey;
+  cursor: pointer;
+}
+
+.tasks,
+.categories {
+  list-style-type: none;
+}
+
+.task--none {
+  color: black;
+  accent-color: black;
+}
+
+.task__label--done {
+  text-decoration: line-through;
+}
+
+.task--gym,
+.categories--gym {
+  color: rgb(150, 150, 0);
+  accent-color: rgb(150, 150, 0);
+}
+
+.task--work,
+.categories--work {
+  color: rgb(150, 75, 0);
+  accent-color: rgb(150, 75, 0);
+}
+
+.task--general,
+.categories--general {
+  color: rgb(0, 100, 150);
+  accent-color: rgb(0, 100, 150);
+}
+
+.task--hobby,
+.categories--hobby {
+  color: rgb(150, 0, 0);
+  accent-color: rgb(150, 0, 0);
+}
+
+.categories__label {
+  text-transform: capitalize;
+}
