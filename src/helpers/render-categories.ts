@@ -1,4 +1,17 @@
-import { Category } from "../types/todo";
+import { Category } from "../types/index.js";
+
+/* Type never */
+const handleCategoryChange = (category: Category) => {
+  if (category === Category.GENERAL) console.log(`Zmiana na general!`);
+  else if (category === Category.GYM) console.log("Siłka");
+  else if (category === Category.HOBBY) console.log("Hobby");
+  else if (category === Category.WORK) console.log("Praca");
+  else if (category === Category.SOCIAL) console.log("Społeczność");
+  else {
+    const never: never = category;
+    console.log(never);
+  }
+};
 
 const render = (
   categories: Category[],
@@ -18,6 +31,7 @@ const render = (
     radioInputElement.setAttribute("id", `category-${category}`);
     radioInputElement.addEventListener("change", function () {
       inputChangeCallback(category);
+      handleCategoryChange(category);
     });
 
     labelElement.setAttribute("for", `category-${category}`);

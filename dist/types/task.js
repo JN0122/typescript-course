@@ -3,6 +3,7 @@
 //   isDone: boolean;
 //   category?: Category;
 // }
+import { Category } from "./category.js";
 export class Task {
     constructor(name, isDone, category = Category.GENERAL) {
         this.name = name;
@@ -14,12 +15,3 @@ export class Task {
         console.log(`Task został stworzony ${this._createdAt} ${extra || ""}`);
     }
 }
-// export type Category = "general" | "work" | "gym" | "hobby" | "social";
-export var Category;
-(function (Category) {
-    Category["GENERAL"] = "general";
-    Category["WORK"] = "work";
-    Category["GYM"] = "gym";
-    Category["HOBBY"] = "hobby";
-    Category["SOCIAL"] = "social";
-})(Category || (Category = {}));

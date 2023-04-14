@@ -1,4 +1,4 @@
-import { Task } from "../types/todo";
+import { Task } from "../types/index.js";
 
 export const changeTaskStatus = (
   tasks: Task[],
@@ -38,7 +38,6 @@ export const render = function (
     checkboxElement.setAttribute("type", "checkbox");
     checkboxElement.setAttribute("name", task.name);
     checkboxElement.setAttribute("id", id);
-    console.log(task.category);
     if (task.category) {
       taskElement.classList.add(`task--${task.category}`);
     } else {

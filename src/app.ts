@@ -81,32 +81,31 @@ buyButtonEl.addEventListener("click", () => {
 //   "Nakarmić koty",
 // ];
 
-import { Task, Category } from "./types/todo";
-import { changeTaskStatus, render } from "./helpers/render-tasks.js";
+import { Task, Category } from "./types/index.js";
+import {
+  changeTaskStatus,
+  render as renderTasks,
+} from "./helpers/render-tasks.js";
 import renderCategories from "./helpers/render-categories.js";
+import { TaskClass } from "./classes/task.js";
 
-const categories: Category[] = ["general", "work", "gym", "hobby"];
+const categories: Category[] = [
+  Category.GENERAL,
+  Category.WORK,
+  Category.GYM,
+  Category.HOBBY,
+  Category.SOCIAL,
+];
 let selectedCategory: Category;
 
 // const tasks: {name: string, isDone: boolean} = [
 const tasks: Task[] = [
-  {
-    name: "Wyrzucić śmieci",
-    isDone: false,
-  },
-  {
-    name: "Pójść na siłownię",
-    isDone: true,
-    category: "gym",
-  },
-  {
-    name: "Nakarmić koty",
-    isDone: false,
-    category: "general",
-  },
+  new Task("Wyrzucić śmieci", false),
+  new Task("Pójść na siłownię", true, Category.GYM),
+  new Task("Nakarmić koty", false, Category.GENERAL),
 ];
 
-tasks.push({ name: "Zrobić obiad", isDone: false });
+tasks.push(new Task("Zrobić obiad", false));
 // tasks.push(1);
 
 const taskContainerElement: HTMLElement = document.querySelector(".tasks");
@@ -124,13 +123,16 @@ addButtonElement.addEventListener("click", function (e: Event) {
 
   if (!taskNameInputElement.value) return;
 
-  addTask({
-    name: taskNameInputElement.value,
-    isDone: false,
-    category: selectedCategory,
-  });
+  const newTask: Task = new Task(
+    taskNameInputElement.value,
+    false,
+    selectedCategory
+  );
+  addTask(newTask);
+  newTask.logCreationDate("!!!");
+
   taskNameInputElement.value = "";
-  render(tasks, taskContainerElement);
+  renderTasks(tasks, taskContainerElement);
 });
 
 taskContainerElement.addEventListener("click", function (e) {
@@ -148,10 +150,90 @@ const updateSelectedCategory = (newCategory: Category) => {
   selectedCategory = newCategory;
 };
 
-addTask({ name: "BOJOWE ZADANIE OD SZEFA", isDone: false, category: "work" });
+addTask(new Task("BOJOWE ZADANIE OD SZEFA", false, Category.WORK));
 renderCategories(
   categories,
   categoriesContainerElement,
   updateSelectedCategory
 );
-render(tasks, taskContainerElement);
+renderTasks(tasks, taskContainerElement);
+
+let variable: any;
+/* Type any
+variable = 12;
+variable = "a";
+variable = false;
+
+renderTasks(variable, taskContainerElement);
+console.log();
+*/
+/* Type unknown
+let get = (response: unknown) => response;
+
+const logFixed = (v: number) => {
+  console.log(v.toFixed());
+};
+
+let variable2: unknown;
+
+variable2 = "123";
+variable2 = 1;
+
+logFixed(2.1);
+let value = get(2.3);
+
+logFixed(value);
+if (typeof value === "number") logFixed(value);
+
+logFixed(get("abc"));
+*/
+
+/* Type tuple */
+type TaskAsTuple = [string, Category, boolean];
+
+const task: TaskAsTuple = ["zrobić klatkę", Category.GYM, false];
+const taskName = task[0];
+const taskCategory = task[1];
+const taskIsDoneStatus = task[2];
+
+addTask(new Task(taskName, taskIsDoneStatus, taskCategory));
+
+// const newTask: TaskAsTuple = [false, Category.GENERAL, "Pojść na zakupy"];
+
+renderTasks(tasks, taskContainerElement);
+
+/* Type vs Interface
+
+type TaskType = {
+  name: string;
+  isDone: boolean;
+  category?: Category;
+};
+
+interface TaskInterface {
+  name: string;
+  isDone: boolean;
+  category?: Category;
+}
+
+// let newTask: TaskType; // works too!
+let newTask: TaskInterface;
+newTask = {
+  name: "Wywiesić pranie",
+  isDone: true,
+  createdAt: new Date(),
+};
+
+type Category = "work" | "hobby" | "general";
+// interface Category = "work" | "hobby" | "general"; // not work
+type CategoryAndNumber = Category | number;
+
+// We can create multiple interfaces
+interface TaskInterface {
+  createdAt: Date;
+}
+*/
+
+const taskClassInstance = new TaskClass("Wywiesić pranie", false, Category.GYM);
+taskClassInstance.logCreationDate("!");
+console.log(taskClassInstance);

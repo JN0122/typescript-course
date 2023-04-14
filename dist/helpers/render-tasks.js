@@ -24,7 +24,6 @@ export const render = function (tasks, taskContainerElement) {
         checkboxElement.setAttribute("type", "checkbox");
         checkboxElement.setAttribute("name", task.name);
         checkboxElement.setAttribute("id", id);
-        console.log(task.category);
         if (task.category) {
             taskElement.classList.add(`task--${task.category}`);
         }

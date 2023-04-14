@@ -53,28 +53,32 @@ buyButtonEl.addEventListener("click", () => {
     const hasDiscount = new URLSearchParams(window.location.search).get("discount") === "true";
     console.log(calculatePrice(originalPrice, hasDiscount));
 });
-import { changeTaskStatus, render } from "./helpers/render-tasks.js";
+/* Array, Object, Optional Properties, Interface, Union type, Alias and Function */
+// const tasks: string[] = ["Wyrzucić śmieci", "Pójść na siłownię", "Nakarmić koty"];
+// const tasks: Array<string> = [
+//   "Wyrzucić śmieci",
+//   "Pójść na siłownię",
+//   "Nakarmić koty",
+// ];
+import { Task, Category } from "./types/index.js";
+import { changeTaskStatus, render as renderTasks, } from "./helpers/render-tasks.js";
 import renderCategories from "./helpers/render-categories.js";
-const categories = ["general", "work", "gym", "hobby"];
+import { TaskClass } from "./classes/task.js";
+const categories = [
+    Category.GENERAL,
+    Category.WORK,
+    Category.GYM,
+    Category.HOBBY,
+    Category.SOCIAL,
+];
 let selectedCategory;
 // const tasks: {name: string, isDone: boolean} = [
 const tasks = [
-    {
-        name: "Wyrzucić śmieci",
-        isDone: false,
-    },
-    {
-        name: "Pójść na siłownię",
-        isDone: true,
-        category: "gym",
-    },
-    {
-        name: "Nakarmić koty",
-        isDone: false,
-        category: "general",
-    },
+    new Task("Wyrzucić śmieci", false),
+    new Task("Pójść na siłownię", true, Category.GYM),
+    new Task("Nakarmić koty", false, Category.GENERAL),
 ];
-tasks.push({ name: "Zrobić obiad", isDone: false });
+tasks.push(new Task("Zrobić obiad", false));
 // tasks.push(1);
 const taskContainerElement = document.querySelector(".tasks");
 const taskNameInputElement = document.querySelector("#name");
@@ -87,13 +91,11 @@ addButtonElement.addEventListener("click", function (e) {
     e.preventDefault();
     if (!taskNameInputElement.value)
         return;
-    addTask({
-        name: taskNameInputElement.value,
-        isDone: false,
-        category: selectedCategory,
-    });
+    const newTask = new Task(taskNameInputElement.value, false, selectedCategory);
+    addTask(newTask);
+    newTask.logCreationDate("!!!");
     taskNameInputElement.value = "";
-    render(tasks, taskContainerElement);
+    renderTasks(tasks, taskContainerElement);
 });
 taskContainerElement.addEventListener("click", function (e) {
     const liElement = e.target.closest("li");
@@ -105,6 +107,48 @@ taskContainerElement.addEventListener("click", function (e) {
 const updateSelectedCategory = (newCategory) => {
     selectedCategory = newCategory;
 };
-addTask({ name: "BOJOWE ZADANIE OD SZEFA", isDone: false, category: "work" });
+addTask(new Task("BOJOWE ZADANIE OD SZEFA", false, Category.WORK));
 renderCategories(categories, categoriesContainerElement, updateSelectedCategory);
-render(tasks, taskContainerElement);
+renderTasks(tasks, taskContainerElement);
+let variable;
+const task = ["zrobić klatkę", Category.GYM, false];
+const taskName = task[0];
+const taskCategory = task[1];
+const taskIsDoneStatus = task[2];
+addTask(new Task(taskName, taskIsDoneStatus, taskCategory));
+// const newTask: TaskAsTuple = [false, Category.GENERAL, "Pojść na zakupy"];
+renderTasks(tasks, taskContainerElement);
+/* Type vs Interface
+
+type TaskType = {
+  name: string;
+  isDone: boolean;
+  category?: Category;
+};
+
+interface TaskInterface {
+  name: string;
+  isDone: boolean;
+  category?: Category;
+}
+
+// let newTask: TaskType; // works too!
+let newTask: TaskInterface;
+newTask = {
+  name: "Wywiesić pranie",
+  isDone: true,
+  createdAt: new Date(),
+};
+
+type Category = "work" | "hobby" | "general";
+// interface Category = "work" | "hobby" | "general"; // not work
+type CategoryAndNumber = Category | number;
+
+// We can create multiple interfaces
+interface TaskInterface {
+  createdAt: Date;
+}
+*/
+const taskClassInstance = new TaskClass("Wywiesić pranie", false, Category.GYM);
+taskClassInstance.logCreationDate("!");
+console.log(taskClassInstance);
